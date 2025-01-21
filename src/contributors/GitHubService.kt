@@ -15,16 +15,29 @@ import retrofit2.http.Path
 import java.util.Base64
 
 interface GitHubService {
+    // Organization 하위의 Repository 목록을 불러온다
     @GET("orgs/{org}/repos?per_page=100")
     fun getOrgReposCall(
         @Path("org") org: String
     ): Call<List<Repo>>
 
+    // Repository 의 Contributor 목록을 불러온다
     @GET("repos/{owner}/{repo}/contributors?per_page=100")
     fun getRepoContributorsCall(
         @Path("owner") owner: String,
         @Path("repo") repo: String
     ): Call<List<User>>
+
+    @GET("orgs/{org}/repos?per_page=100")
+    suspend fun getOrgRepos(
+        @Path("org") org: String
+    ): Response<List<Repo>>
+
+    @GET("repos/{owner}/{repo}/contributors?per_page=100")
+    suspend fun getRepoContributors(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String
+    ): Response<List<User>>
 }
 
 @Serializable
